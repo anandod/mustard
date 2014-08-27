@@ -406,16 +406,6 @@
 	    }
 	},
 
-	"behaviourType": {
-            "description": "General type of this behaviour",
-	    "properties": {
-		"type": {
-		    "type": "string",
-                    "enum" : ["RECTANGLE_WANDER","SNORT", "PATH", "EVADE", "ATTACK"]
-		}
-	    }
-	},
-
 	"behaviourHeight": {
             "description": "Height (or -ve for depth) to travel at in assorted behaviours",
 	    "properties": {
@@ -429,7 +419,7 @@
 	    "additionalProperties": false,
 	    "properties": {
 		"name": { "$ref": "#/definitions/behaviourName"}
-		,"type":  { "$ref": "#/definitions/behaviourType"}
+		,"type": { "enum": ["PATH"] }
 		,"height":  { "$ref": "#/definitions/behaviourHeight"}
 		,"path": {
                     "type": "array",
@@ -468,7 +458,7 @@
 	    "additionalProperties": false,
 	    "properties": {
 		"name": { "$ref": "#/definitions/behaviourName"}
-		,"type":  { "$ref": "#/definitions/behaviourType"}
+		,"type": { "enum": ["RECTANGLE_WANDER"] }
 		,"height":  { "$ref": "#/definitions/behaviourHeight"}
 		, "tl": {
 		    "type": "object", "required": ["lat", "lng"], "properties": {
@@ -503,7 +493,7 @@
 	    "additionalProperties": false,
 	    "properties": {
 		"name": { "$ref": "#/definitions/behaviourName"}
-		,"type":  { "$ref": "#/definitions/behaviourType"}
+		,"type": { "enum": ["SNORT"] }
 		,"height":  { "$ref": "#/definitions/behaviourHeight"}
 		, "startLevel": {
 		    "type": "integer"
@@ -518,7 +508,7 @@
 	    "additionalProperties": false,
 	    "properties": {
 		"name": { "$ref": "#/definitions/behaviourName"}
-		,"type":  { "$ref": "#/definitions/behaviourType"}
+		,"type": { "enum": ["EVADE"] }
 		,"height":  { "$ref": "#/definitions/behaviourHeight"}
 		, "target": {
 		    "type": "string"
@@ -536,7 +526,10 @@
 	    "additionalProperties": false,
 	    "properties": {
 		"name": { "$ref": "#/definitions/behaviourName"}
-		,"type":  { "$ref": "#/definitions/behaviourType"}
+		,"type": { "enum": ["ATTACK"] }
+		, "target": {
+		    "type": "string"
+		}
 		,"height":  { "$ref": "#/definitions/behaviourHeight"}
 		, "speed": {
 		    "type": "integer"
