@@ -68,7 +68,8 @@
 				{ "$ref": "#/definitions/behaviourPath" },
 				{ "$ref": "#/definitions/behaviourRectangleWander" },
 				{ "$ref": "#/definitions/behaviourSnort" },
-				{ "$ref": "#/definitions/behaviourEvade" }
+				{ "$ref": "#/definitions/behaviourEvade" },
+				{ "$ref": "#/definitions/behaviourAttack" }
 			    ]
 
 			}
