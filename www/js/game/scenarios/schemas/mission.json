@@ -67,7 +67,8 @@
 			    "oneOf": [
 				{ "$ref": "#/definitions/behaviourPath" },
 				{ "$ref": "#/definitions/behaviourRectangleWander" },
-				{ "$ref": "#/definitions/behaviourSnort" }
+				{ "$ref": "#/definitions/behaviourSnort" },
+				{ "$ref": "#/definitions/behaviourEvade" }
 			    ]
 
 			}
@@ -493,6 +494,9 @@
 		, "height": {
 		    "type": "integer"
 		}
+		, "speed": {
+		    "type": "integer"
+		}
 	    }
 	},
 
@@ -509,9 +513,37 @@
 		    "type": "integer"
 		}
 	    }
+	},
+
+	"behaviourEvade": {
+	    "additionalProperties": false,
+	    "properties": {
+		"name": { "$ref": "#/definitions/behaviourName"}
+		,"type":  { "$ref": "#/definitions/behaviourType"}
+		,"height":  { "$ref": "#/definitions/behaviourHeight"}
+		, "target": {
+		    "type": "string"
+		}
+		, "fleeTime": {
+		    "type": "integer"
+		}
+		, "speed": {
+		    "type": "integer"
+		}
+	    }
+	},
+
+	"behaviourAttack": {
+	    "additionalProperties": false,
+	    "properties": {
+		"name": { "$ref": "#/definitions/behaviourName"}
+		,"type":  { "$ref": "#/definitions/behaviourType"}
+		,"height":  { "$ref": "#/definitions/behaviourHeight"}
+		, "speed": {
+		    "type": "integer"
+		}
+	    }
 	}
-	
-	
 
     } 
 }
