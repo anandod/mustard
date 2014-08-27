@@ -417,11 +417,11 @@
 	},
 
 	"behaviourHeight": {
-            "description": "General type of this behaviour",
+            "description": "Height (or -ve for depth) to travel at in assorted behaviours"
 	    "properties": {
                 "height": {
                     "type": "integer",
-                    "description": "Height (or -ve for depth) to travel at in assorted behaviours"
+
                 }
 	    }
 	},
