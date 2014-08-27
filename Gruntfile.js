@@ -44,13 +44,13 @@ module.exports = function(grunt) {
         /**
          * It validates all the scenario files against the schema.
          */
-	tv4: {
+        tv4: {
             options: {
-		root: grunt.file.readJSON('www/js/game/scenarios/schemas/mission.json'),
-		banUnknown: false,
+                root: grunt.file.readJSON('www/js/game/scenarios/schemas/mission.json'),
+                banUnknown: false
             },
             validate: {
-		src: ['www/js/game/scenarios/*_*.json']
+                src: ['www/js/game/scenarios/*_*.json']
             }
 	}
 
@@ -59,3 +59,4 @@ module.exports = function(grunt) {
     grunt.registerTask('build', ['missionsIndex', 'replace:guidance']);
     grunt.registerTask('validate', ['tv4:validate']);
 };
+
