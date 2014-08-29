@@ -129,8 +129,8 @@
                                 "type": "FIND_TARGET"
                             },
                             {
-                                "name": "Spot Merchant main track",
-                                "description": "Select the main trace for the Merchant's truth track",
+                                "name": "Spot quieter Merchant main track",
+                                "description": "Select the main trace for the Merchant's truth track, after the side-lobes are lost",
                                 "type": "FIND_TARGET"
                             },
                             {
@@ -145,7 +145,7 @@
                             },
                             {
                                 "name": "Select disappearing Merchant",
-                                "description": "Select any trace on the merchant track once its noise lobes have been lost",
+                                "description": "Select any trace on the merchant track once its side lobes have been lost",
                                 "type": "FIND_TARGET"
                             }
                         ]
@@ -153,6 +153,41 @@
                 ],
                 "url": "1d_noise_lobes",
                 "guidanceUrl": "guidance/processed/1d_noise_lobes.html"
+            },
+            {
+                "id": "1e",
+                "name": "Unsteady Array",
+                "description": "The effects of the array being unsteady",
+                "situation": "Ok, you're ready for a real puzzler. We're going to switch off the array heading sensors, so you will lose contact during and after each Ownship turn.  There's a dived target in the scenario, and we want you to track it.",
+                "objectives": [
+                    {
+                        "name": "Sonar Qualification",
+                        "children": [
+                            {
+                                "name": "Select dived target track [Leg 1]",
+                                "description": "Start off by selecting the truth track for the submarine to the West of you",
+                                "type": "FIND_TARGET"
+                            },
+                            {
+                                "name": "Select dived target track [Leg 2]",
+                                "description": "Select the dived truth track after the end of the next turn",
+                                "type": "FIND_TARGET"
+                            },
+                            {
+                                "name": "Select dived target track [Leg 3]",
+                                "description": "Select the dived truth track after the end of the next turn",
+                                "type": "FIND_TARGET"
+                            },
+                            {
+                                "name": "Select dived target track [Leg 4]",
+                                "description": "Select the dived truth track after the end of the next turn",
+                                "type": "FIND_TARGET"
+                            }
+                        ]
+                    }
+                ],
+                "url": "1e_array_unsteady",
+                "guidanceUrl": "guidance/processed/1e_array_unsteady.html"
             }
         ]
     },
@@ -160,7 +195,38 @@
         "id": "2",
         "name": "Ship Control",
         "description": "Authority to control vessel course and speed during transit to deployment area",
-        "missions": []
+        "missions": [
+            {
+                "id": "2a",
+                "name": "Learning ship control, the hard way",
+                "description": "Now that you have provisional ship control privilege, you're going to be tested with a challenging transit.",
+                "situation": "We're transiting to load some special weapons, but we've got limited time and a flotilla of fishing vessels have just arrived.  Get to the static support vessel to the West of you without getting within 600m of any fishing vessels.  Oh, and please don't exit your allocated water (the blue rectangle)",
+                "objectives": [
+                    {
+                        "name": "Ship Control exam",
+                        "children": [
+                            {
+                                "name": "Avoid fishing vessels",
+                                "description": "Stay outside 4000m of fishing vessels",
+                                "type": "DISTANCE_TO_CATEGORY"
+                            },
+                            {
+                                "name": "Remain in patrol area",
+                                "description": "Stay within operating area",
+                                "type": "STAY_IN_AREA"
+                            },
+                            {
+                                "name": "R/V with support barge",
+                                "description": "RAS next to Tactical Support Barge, Northerly Course at less than 3 kts",
+                                "type": "PROXIMITY"
+                            }
+                        ]
+                    }
+                ],
+                "url": "2a_port_exit",
+                "guidanceUrl": "guidance/processed/2a_port_exit.html"
+            }
+        ]
     },
     {
         "id": "3",
@@ -185,102 +251,6 @@
         "name": "Special Weapons & Tactics",
         "description": "Non-traditional Ops, under Limited Distribution",
         "missions": [
-            {
-                "id": "6a",
-                "name": "Elementary Self Noise",
-                "description": "An introduction to self-noise",
-                "objectives": [
-                    {
-                        "name": "Gain & keep contact",
-                        "children": [
-                            {
-                                "name": "Gain contact",
-                                "description": "Gain contact on the training target",
-                                "type": "GAIN_CONTACT"
-                            },
-                            {
-                                "name": "Maintain contact",
-                                "description": "Maintain contact on the training target for one hour",
-                                "type": "MAINTAIN_CONTACT"
-                            }
-                        ]
-                    }
-                ],
-                "url": "2a_intro_self_noise",
-                "guidanceUrl": "guidance/processed/2a_intro_self_noise.html"
-            },
-            {
-                "id": "6b",
-                "name": "Full Self Noise",
-                "description": "Full self-noise characteristics",
-                "objectives": [
-                    {
-                        "name": "Gain & keep contact",
-                        "children": [
-                            {
-                                "name": "Gain contact",
-                                "description": "Gain contact on the training target",
-                                "type": "GAIN_CONTACT"
-                            },
-                            {
-                                "name": "Maintain contact",
-                                "description": "Maintain contact on the training target for one hour",
-                                "type": "MAINTAIN_CONTACT"
-                            }
-                        ]
-                    }
-                ],
-                "url": "2b_full_self_noise",
-                "guidanceUrl": "guidance/processed/2b_full_self_noise.html"
-            },
-            {
-                "id": "6c",
-                "name": "Advanced Self Noise",
-                "description": "Advanced Self Noise",
-                "objectives": [
-                    {
-                        "name": "Gain & maintain contact",
-                        "children": [
-                            {
-                                "name": "Gain contact",
-                                "description": "Gain contact on the training target",
-                                "type": "GAIN_CONTACT"
-                            },
-                            {
-                                "name": "Maintain contact",
-                                "description": "Maintain continuous contact on the training target for one hour",
-                                "type": "MAINTAIN_CONTACT"
-                            }
-                        ]
-                    }
-                ],
-                "url": "2c_adv_self_noise",
-                "guidanceUrl": "guidance/processed/2c_adv_self_noise.html"
-            },
-            {
-                "id": "6d",
-                "name": "Self Noise Extra",
-                "description": "More challenging self noise",
-                "objectives": [
-                    {
-                        "name": "Gain & maintain contact",
-                        "children": [
-                            {
-                                "name": "Gain contact",
-                                "description": "Gain contact on the training target",
-                                "type": "GAIN_CONTACT"
-                            },
-                            {
-                                "name": "Maintain contact",
-                                "description": "Maintain continuous contact on the training target for one hour",
-                                "type": "MAINTAIN_CONTACT"
-                            }
-                        ]
-                    }
-                ],
-                "url": "2d_more_self_noise",
-                "guidanceUrl": "guidance/processed/2d_more_self_noise.html"
-            },
             {
                 "id": "6a",
                 "name": "Initial Ranging",
@@ -512,6 +482,30 @@
             },
             {
                 "id": "6a",
+                "name": "Elementary Self Noise",
+                "description": "An introduction to self-noise",
+                "objectives": [
+                    {
+                        "name": "Gain & keep contact",
+                        "children": [
+                            {
+                                "name": "Gain contact",
+                                "description": "Gain contact on the training target",
+                                "type": "GAIN_CONTACT"
+                            },
+                            {
+                                "name": "Maintain contact",
+                                "description": "Maintain contact on the training target for one hour",
+                                "type": "MAINTAIN_CONTACT"
+                            }
+                        ]
+                    }
+                ],
+                "url": "6a_intro_self_noise",
+                "guidanceUrl": "guidance/processed/6a_intro_self_noise.html"
+            },
+            {
+                "id": "6a",
                 "name": "Merchant in area",
                 "description": "Handling a cargo ship in the training area",
                 "objectives": [
@@ -533,6 +527,30 @@
                 ],
                 "url": "6a_merchant",
                 "guidanceUrl": "guidance/processed/6a_merchant.html"
+            },
+            {
+                "id": "6b",
+                "name": "Full Self Noise",
+                "description": "Full self-noise characteristics",
+                "objectives": [
+                    {
+                        "name": "Gain & keep contact",
+                        "children": [
+                            {
+                                "name": "Gain contact",
+                                "description": "Gain contact on the training target",
+                                "type": "GAIN_CONTACT"
+                            },
+                            {
+                                "name": "Maintain contact",
+                                "description": "Maintain contact on the training target for one hour",
+                                "type": "MAINTAIN_CONTACT"
+                            }
+                        ]
+                    }
+                ],
+                "url": "6b_full_self_noise",
+                "guidanceUrl": "guidance/processed/6b_full_self_noise.html"
             },
             {
                 "id": "6b",
@@ -584,6 +602,30 @@
             },
             {
                 "id": "6c",
+                "name": "Advanced Self Noise",
+                "description": "Advanced Self Noise",
+                "objectives": [
+                    {
+                        "name": "Gain & maintain contact",
+                        "children": [
+                            {
+                                "name": "Gain contact",
+                                "description": "Gain contact on the training target",
+                                "type": "GAIN_CONTACT"
+                            },
+                            {
+                                "name": "Maintain contact",
+                                "description": "Maintain continuous contact on the training target for one hour",
+                                "type": "MAINTAIN_CONTACT"
+                            }
+                        ]
+                    }
+                ],
+                "url": "6c_adv_self_noise",
+                "guidanceUrl": "guidance/processed/6c_adv_self_noise.html"
+            },
+            {
+                "id": "6c",
                 "name": "Handling ambiguity",
                 "description": "Intro to ambiguous bearings",
                 "objectives": [
@@ -605,18 +647,11 @@
                 ],
                 "url": "6c_resolve_ambiguity",
                 "guidanceUrl": "guidance/processed/6c_resolve_ambiguity.html"
-            }
-        ]
-    },
-    {
-        "id": "7",
-        "name": "Spare",
-        "description": "temporary storage for legacy missions",
-        "missions": [
+            },
             {
-                "id": "7a",
-                "name": "Unsteady Array",
-                "description": "The effects of the array being unsteady",
+                "id": "6d",
+                "name": "Self Noise Extra",
+                "description": "More challenging self noise",
                 "objectives": [
                     {
                         "name": "Gain & maintain contact",
@@ -627,16 +662,23 @@
                                 "type": "GAIN_CONTACT"
                             },
                             {
-                                "name": "Locate it",
-                                "description": "Get within 500m of Target vessel",
-                                "type": "PROXIMITY"
+                                "name": "Maintain contact",
+                                "description": "Maintain continuous contact on the training target for one hour",
+                                "type": "MAINTAIN_CONTACT"
                             }
                         ]
                     }
                 ],
-                "url": "7a_array_unsteady",
-                "guidanceUrl": "guidance/processed/7a_array_unsteady.html"
-            },
+                "url": "6d_more_self_noise",
+                "guidanceUrl": "guidance/processed/6d_more_self_noise.html"
+            }
+        ]
+    },
+    {
+        "id": "7",
+        "name": "Spare",
+        "description": "temporary storage for legacy missions",
+        "missions": [
             {
                 "id": "7b",
                 "name": "Quick win",

@@ -60,11 +60,17 @@ angular.module('subtrack90.game.objectives', ['subtrack90.game.geoMath'])
                 case "SEQUENCE":
                     handleSequence(gameState, objective, vessels, deadVessels);
                     break;
+                case "OR":
+                    handleOr(gameState, objective, vessels, deadVessels);
+                    break;
                 case "PROXIMITY":
                     handleProximity(gameState, objective, vessels);
                     break;
                 case "DISTANCE":
                     handleDistance(gameState, objective, vessels);
+                    break;
+                case "DISTANCE_TO_CATEGORY":
+                    handleDistanceToCategory(gameState, objective, vessels);
                     break;
                 case "FIND_TARGET":
                     handleFindTarget(gameState, objective, vessels);
@@ -81,6 +87,9 @@ angular.module('subtrack90.game.objectives', ['subtrack90.game.geoMath'])
                 case "DESTROY_TARGET":
                     handleDestroyTarget(gameState, objective, vessels, deadVessels);
                     break;
+                case "STAY_IN_AREA":
+                    handleStayInArea(gameState, objective, vessels);
+                    break;
                 case "OBTAIN_SOLUTION":
                     handleObtainSolution(gameState, objective, vessels);
                     break;
@@ -88,7 +97,7 @@ angular.module('subtrack90.game.objectives', ['subtrack90.game.geoMath'])
 
 
             // if the objective type isn't an "organisational" one, set the remaining time, if present
-            if (objective.type != "SEQUENCE") {
+            if ((objective.type != "SEQUENCE") && (objective.type != "OR")) {
                 // just do a check for time remaining
                 if (objective.stopTime) {
                     // ok, how long is remaiing?
@@ -102,7 +111,7 @@ angular.module('subtrack90.game.objectives', ['subtrack90.game.geoMath'])
 
             // was the action successful?
             // if the objective type isn't an "organisational" one, set the remaining time, if present
-            if (objective.type != "SEQUENCE") {
+            if ((objective.type != "SEQUENCE") && (objective.type != "OR")) {
                 if (gameState.successMessage && objective.complete) {
                     // ok, is there a success action?
                     if (objective.successAction) {
@@ -157,6 +166,42 @@ angular.module('subtrack90.game.objectives', ['subtrack90.game.geoMath'])
         };
 
 
+        /** process all of these objectives, finish if any child completes
+         *
+         * @param gameState
+         * @param sequence
+         * @param vessels
+         * @param deadVessels
+         */
+
+        var handleOr = function (gameState, any, vessels, deadVessels) {
+            var STOP_CHECKING = false;  // flag for if an object hasn't been reached yet
+
+            // loop through all, or until we don't get a result object
+            for(var thisId = 0;thisId < any.children.length; thisId ++) {
+                // get the next child
+                var child = any.children[thisId];
+
+                // ok, run it
+                handleThis(gameState, child, vessels, deadVessels);
+
+                // did it finish?
+                if (child.complete) {
+
+                    // ok, drop out - we're done
+                    return;
+                }
+            }
+        };
+
+
+        /** process all of these objectives in turn
+         *
+         * @param gameState
+         * @param sequence
+         * @param vessels
+         * @param deadVessels
+         */
         var handleSequence = function (gameState, sequence, vessels, deadVessels) {
             var thisId = 0;
             var STOP_CHECKING = false;  // flag for if an object hasn't been reached yet
@@ -230,7 +275,6 @@ angular.module('subtrack90.game.objectives', ['subtrack90.game.geoMath'])
             }
             while ((thisId < sequence.children.length) && (!STOP_CHECKING));
         };
-
 
         var handleObtainSolution = function (gameState, obtain, vessels) {
             var subjectName = obtain.subject;
@@ -647,6 +691,7 @@ angular.module('subtrack90.game.objectives', ['subtrack90.game.geoMath'])
                     if (courseError > proximity.courseError) {
                         failed = true;
                     }
+
                 }
 
                 // ok, have we failed?
@@ -681,6 +726,8 @@ angular.module('subtrack90.game.objectives', ['subtrack90.game.geoMath'])
                     insertNarrative(gameState, gameState.simulationTime, subject.state.location,
                         "Reached proximity threshold");
 
+                    console.log("PROXIMITY PASSED!")
+
                 }
             }
 
@@ -707,6 +754,57 @@ angular.module('subtrack90.game.objectives', ['subtrack90.game.geoMath'])
                 }
             }
         };
+
+
+        /** fail if subject vessel passes inside set range of a whole category of vessels
+         *
+         * @param gameState the current state of the game
+         * @param distance this objective
+         * @param vessels the list of vessels
+         */
+        var handleDistanceToCategory = function (gameState, distance, vessels) {
+
+            // get the subject vessel, we don't want to test against it
+            var subject = vessels[distance.subject];
+
+            // ok, loop through the vessels
+            _.each(vessels, function (thisV) {
+
+                // check it's not us
+                if(thisV != subject){
+
+                    // verify the categories
+                    if((thisV.categories.force == distance.category)
+                    ||(thisV.categories.environment == distance.category)
+                    || (thisV.categories.type == distance.category)){
+
+                        // ok, matching vessel what's his location?
+                        var hisLoc = thisV.state.location;
+
+                        // and what's my location?
+                        var myLoc = subject.state.location;
+
+                        // what's the range?
+                        var range = geoMath.rhumbDistanceFromTo(hisLoc, myLoc);
+
+                        // is it beyond the acceptable limit?
+                        if(range < distance.range)
+                        {
+                            // ok, the target has encroached on the distance. failed.
+                            distance.complete = true;
+                            gameState.failureMessage = distance.failure;
+                            gameState.state = "DO_STOP";
+                            insertNarrative(gameState, gameState.simulationTime, subject.state.location,
+                                "Failed to stay outside the necessary range");
+
+                            return;
+                        }
+                    }
+                }
+            });
+
+        };
+
 
         var handleDistance = function (gameState, distance, vessels) {
 
@@ -795,6 +893,40 @@ angular.module('subtrack90.game.objectives', ['subtrack90.game.geoMath'])
             }
         };
 
+
+        var handleStayInArea = function(gameState, stayInArea, vessels) {
+
+            var subject = vessels[stayInArea.subject];
+
+            if (!subject) {
+                return;
+            }
+
+            var dest = null;
+
+            // have we constructed the bounding polygon?
+            if (!stayInArea.boundsObj) {
+                // ok, inject the bounds
+                var tl = L.latLng(stayInArea.tl.lat, stayInArea.tl.lng);
+                var br = L.latLng(stayInArea.br.lat, stayInArea.br.lng);
+                var bounds = L.latLngBounds(tl, br);
+                stayInArea.boundsObj = bounds;
+            }
+
+            // ok, have we left it?
+            // are we in the patrol area?
+            var location = subject.state.location;
+
+            var myLoc = L.latLng(location.lat, location.lng);
+            if (!(stayInArea.boundsObj.contains(myLoc))) {
+
+                // ok, we've left the area. game over!
+                gameState.failureMessage = stayInArea.failure;
+                gameState.state = "DO_STOP";
+                insertNarrative(gameState, gameState.simulationTime, subject.state.location,
+                    "Failed to stay outside the necessary range");
+            }
+        };
 
         var handleDestroyTarget = function (gameState, destroy, vessels, deadVessels) {
 
