@@ -65,23 +65,12 @@
 			    "type": "object",
 			    "required": ["name", "type"],
 			    "oneOf": [
-				{
-				    "$ref": "#/definitions/behaviourPath"
-				},
-				{
-				    "$ref": "#/definitions/behaviourRectangleWander"
-				},
-				{
-				    "$ref": "#/definitions/behaviourSnort"
-				},
-				{
-				    "$ref": "#/definitions/behaviourEvade"
-				},
-				{
-				    "$ref": "#/definitions/behaviourAttack"
-				}
+				{ "$ref": "#/definitions/behaviourPath" },
+				{ "$ref": "#/definitions/behaviourRectangleWander" },
+				{ "$ref": "#/definitions/behaviourSnort" },
+				{ "$ref": "#/definitions/behaviourEvade" },
+				{ "$ref": "#/definitions/behaviourAttack" }
 			    ]
-
 			}
 		    },
 		    "sonars": {
@@ -445,9 +434,6 @@
 			}
 		    }
 		},
-		"height": {
-		    "type": "integer"
-		},
 		"speed": {
 		    "type": "integer"
 		}
@@ -537,224 +523,201 @@
 		}
 	    }
 	},
-	"objectiveCore": {
-	    "type": "object",
-	    "properties": {
-		"name": { "type": "string" },
-		"description": { "type": "string" }
-	    }
-	},
 	"objectiveFindTarget": {
 	    "type": "object",
-	    "allOf": [
-		{"$ref": "#/definitions/objectiveCore" },
-		{ 
-		    "properties": {
-			"type": { "enum": ["FIND_TARGET"] },
-			"subject": { "type": "string" },
-			"target": { "type": "string" },
-			"success": { "type": "string" },
-			"failure": { "type": "string" },
-			"clearAfterwards": { "type": "boolean" },
-
-			"elapsed": { "type": "integer" },
-			
-			"achievement": { 
-			    "$ref": "#/definitions/objectiveAchievement"
-			} 
-			,
-			"failureTime": { "type": "string" },
-			"failureSelection": { "type": "string" },
-			"narrSuccess": { "type": "string" }
-		    } 
-		}
-	    ]
+	    "additionalProperties": false,
+	    "properties": {
+		"name": { "type": "string" },
+		"description": { "type": "string" },
+		"type": { "enum": ["FIND_TARGET"] },
+		"subject": { "type": "string" },
+		"target": { "type": "string" },
+		"success": { "type": "string" },
+		"failure": { "type": "string" },
+		"clearAfterwards": { "type": "boolean" },
+		"after": { "type": "integer" },
+		"elapsed": { "type": "integer" },
+		"elapsedNot": { "type": "integer" },
+		"achievement": { 
+		    "$ref": "#/definitions/objectiveAchievement"
+		},
+		"targetSubString": { "type": "string" },
+		"failureEarly": { "type": "string" },
+		"failureSelection": { "type": "string" },
+		"failureTime": { "type": "string" },
+		"narrSuccess": { "type": "string" }
+	    } 
 	},
 	"objectiveDistanceToCategory": {
 	    "type": "object",
-	    "allOf": [
-		{"$ref": "#/definitions/objectiveCore" },
-		{
-		    "properties": 
-		    { 
-			"type": { "enum": ["DISTANCE_TO_CATEGORY"] },
-			"subject": { "type": "string" },
-			"category": { "type": "string" },
-			"range": { "type": "number" },
-			"success": { "type": "string" },
-			"failure": { "type": "string" } 
-		    } 
-		}
-	    ]
+	    "additionalProperties": false,
+	    "properties": 
+	    { 
+		"name": { "type": "string" },
+		"description": { "type": "string" },
+		"type": { "enum": ["DISTANCE_TO_CATEGORY"] },
+		"subject": { "type": "string" },
+		"category": { "type": "string" },
+		"range": { "type": "number" },
+		"success": { "type": "string" },
+		"failure": { "type": "string" } 
+	    } 
 	},
 	"objectiveStayInArea": {
 	    "type": "object",
-	    "allOf": [
-		{"$ref": "#/definitions/objectiveCore" },
-		{
-		    "properties": 
-		    { 
-			"type": { "enum": ["STAY_IN_AREA"] },
-			"subject": { "type": "string" },
-			"category": { "type": "string" },
-			"tl": {
-			    "$ref": "#/definitions/latLng"
-			},
-			"br": {
-			    "$ref": "#/definitions/latLng"
-			},
-			"success": { "type": "string" },
-			"failure": { "type": "string" } 
-		    } 
-		}
-	    ]
+	    "additionalProperties": false,
+	    "properties": 
+	    { 
+		"name": { "type": "string" },
+		"description": { "type": "string" },
+		"type": { "enum": ["STAY_IN_AREA"] },
+		"subject": { "type": "string" },
+		"category": { "type": "string" },
+		"tl": {
+		    "$ref": "#/definitions/latLng"
+		},
+		"br": {
+		    "$ref": "#/definitions/latLng"
+		},
+		"success": { "type": "string" },
+		"failure": { "type": "string" } 
+	    } 
 	},
 	"objectiveProximity": {
 	    "type": "object",
-	    "allOf": [
-		{"$ref": "#/definitions/objectiveCore" },
-		{ 
-		    "properties": 
-		    { 
-			"type": { "enum": ["PROXIMITY"] },
-			"subject": { "type": "string" },
-			"category": { "type": "string" },
-			"range": { "type": "number" },
-			"success": { "type": "string" },
-			"failure": { "type": "string" },
-			"location": {
-			    "$ref": "#/definitions/latLng"
-			},
-			"range": { "type": "integer" },
-			"elapsed": { "type": "integer" },
-			"course": { "type": "integer" },
-			"courseError": { "type": "integer" },
-			"bonusAchievementTime": { "type": "integer" },
-			"bonusAchievement": { 
-			    "$ref": "#/definitions/objectiveAchievement"
-			},
-			"maxSpeed": { "type": "number" },
-			"success": { "type": "string" },
-			"failure": { "type": "string" },
-			"achievement": { 
-			    "$ref": "#/definitions/objectiveAchievement"
-			},
-			"target": { "type": "string" }
-		    }
-		}
-	    ]
+	    "additionalProperties": false,
+	    "properties": 
+	    { 
+		"name": { "type": "string" },
+		"description": { "type": "string" },
+		"type": { "enum": ["PROXIMITY"] },
+		"subject": { "type": "string" },
+		"category": { "type": "string" },
+		"range": { "type": "number" },
+		"success": { "type": "string" },
+		"failure": { "type": "string" },
+		"location": {
+		    "$ref": "#/definitions/latLng"
+		},
+		"elapsed": { "type": "integer" },
+		"course": { "type": "integer" },
+		"courseError": { "type": "integer" },
+		"bonusAchievementTime": { "type": "integer" },
+		"bonusAchievement": { 
+		    "$ref": "#/definitions/objectiveAchievement"
+		},
+		"maxSpeed": { "type": "number" },
+		"achievement": { 
+		    "$ref": "#/definitions/objectiveAchievement"
+		},
+		"target": { "type": "string" }
+	    }
 	},
 	"objectiveGainContact": {
 	    "type": "object",
-	    "allOf": [
-		{"$ref": "#/definitions/objectiveCore" },
-		{ "properties": 
-		  { 
-		      "type": { "enum": ["GAIN_CONTACT"] },
-		      "elapsed": { "type": "integer" },
-		      "success": { "type": "string" },
-		      "failure": { "type": "string" } 
-		  } 
+	    "additionalProperties": false,
+	    "properties": 
+	    { 
+		"name": { "type": "string" },
+		"description": { "type": "string" },
+		"type": { "enum": ["GAIN_CONTACT"] },
+		"elapsed": { "type": "integer" },
+		"target": { "type": "string" },
+		"success": { "type": "string" },
+		"failure": { "type": "string" },
+		"achievement": { 
+		    "$ref": "#/definitions/objectiveAchievement"
 		}
-	    ]
+	    } 
 	},
 	"objectiveMaintainContact": {
 	    "type": "object",
-	    "allOf": [
-		{"$ref": "#/definitions/objectiveCore" },
-		{
-		    "properties": 
-		    { 
-			"type": { "enum": ["MAINTAIN_CONTACT"] },
-			"elapsed": { "type": "integer" },
-			"success": { "type": "string" },
-			"failure": { "type": "string" }, 
-			"achievement": { 
-			    "$ref": "#/definitions/objectiveAchievement"
-			}
-		    } 
+	    "additionalProperties": false,
+	    "properties": 
+	    { 
+		"name": { "type": "string" },
+		"description": { "type": "string" },
+		"type": { "enum": ["MAINTAIN_CONTACT"] },
+		"elapsed": { "type": "integer" },
+		"success": { "type": "string" },
+		"failure": { "type": "string" }, 
+		"achievement": { 
+		    "$ref": "#/definitions/objectiveAchievement"
 		}
-	    ]
+	    } 
 	},
 	"objectiveObtainSolution": {
 	    "type": "object",
-	    "allOf": [
-		{"$ref": "#/definitions/objectiveCore" },
-		{
-		    "properties": 
-		    { 
-			"type": { "enum": ["OBTAIN_SOLUTION"] },
-			"count": { "type": "integer" },
-			"accuracy": { "type": "integer" },
-			"success": { "type": "string" },
-			"subject": { "type": "string" } 
-		    } 
-		}
-	    ]
+	    "additionalProperties": false,
+	    "properties": 
+	    { 
+		"name": { "type": "string" },
+		"description": { "type": "string" },
+		"type": { "enum": ["OBTAIN_SOLUTION"] },
+		"count": { "type": "integer" },
+		"accuracy": { "type": "integer" },
+		"success": { "type": "string" },
+		"subject": { "type": "string" } 
+	    } 
 	},
 	"objectiveDistance": {
 	    "type": "object",
-	    "allOf": [
-		{"$ref": "#/definitions/objectiveCore" },
-		{
-		    "properties": 
-		    { 
-			"type": { "enum": ["DISTANCE"] },
-			"elapsed": { "type": "integer" },
-			"success": { "type": "string" },
-			"failure": { "type": "string" },
-			"achievement": { 
-			    "$ref": "#/definitions/objectiveAchievement"
-			},
-			"range": { "type": "integer" },
-			"subject": { "type": "string" },
-			"target": { "type": "string" }
-		    } 
-		}
-	    ]
+	    "additionalProperties": false,
+	    "properties": 
+	    { 
+		"name": { "type": "string" },
+		"description": { "type": "string" },
+		"type": { "enum": ["DISTANCE"] },
+		"elapsed": { "type": "integer" },
+		"success": { "type": "string" },
+		"failure": { "type": "string" },
+		"achievement": { 
+		    "$ref": "#/definitions/objectiveAchievement"
+		},
+		"range": { "type": "integer" },
+		"subject": { "type": "string" },
+		"target": { "type": "string" }
+	    } 
 	},
 	"objectiveDestroyTarget": {
 	    "type": "object",
-	    "allOf": [
-		{"$ref": "#/definitions/objectiveCore" },
-		{
-		    "properties": 
-		    { 
-			"type": { "enum": ["DESTROY_TARGET"] },
-			"elapsed": { "type": "integer" },
-			"subject": { "type": "string" },
-			"target": { "type": "string" },
-			"success": { "type": "string" },
-			"failure": { "type": "string" } 
-		    } 
-		    
-		}
-	    ]
+	    "additionalProperties": false,
+	    "properties": 
+	    { 
+		"name": { "type": "string" },
+		"description": { "type": "string" },
+		"type": { "enum": ["DESTROY_TARGET"] },
+		"elapsed": { "type": "integer" },
+		"subject": { "type": "string" },
+		"target": { "type": "string" },
+		"success": { "type": "string" },
+		"failure": { "type": "string" } 
+	    } 
+	    
 	},
 	"objectiveElapsed": {
 	    "type": "object",
-	    "allOf": [
-		{"$ref": "#/definitions/objectiveCore" },
-		{	    
-		    "properties": 
-		    { 
-			"type": { "enum": ["ELAPSED"] },
-			"time": { "type": "integer" },
-			"achievement": { 
-			    "$ref": "#/definitions/objectiveAchievement"
-			},
-			"successAction": {
-			    "type": "object",
-			    "properties": {
-				"type": { "enum": ["ACTIVATE_SONAR"] },
-				"sonar": { "enum": ["BASIC_TOWED"] },
-				"subject": { "type": "string" },
-				"disabled": { "type": "boolean" }
-			    }
-			}
-		    } 
+	    "additionalProperties": false,
+	    "properties": 
+	    { 
+		"name": { "type": "string" },
+		"description": { "type": "string" },
+		"type": { "enum": ["ELAPSED"] },
+		"time": { "type": "integer" },
+		"achievement": { 
+		    "$ref": "#/definitions/objectiveAchievement"
+		},
+		"success": { "type": "string" },
+		"successAction": {
+		    "type": "object",
+		    "properties": {
+			"type": { "enum": ["ACTIVATE_SONAR"] },
+			"sonar": { "enum": ["BASIC_TOWED"] },
+			"subject": { "type": "string" },
+			"disabled": { "type": "boolean" }
+		    }
 		}
-	    ]
+	    } 
 	}
     }
 }
