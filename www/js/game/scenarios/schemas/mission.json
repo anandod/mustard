@@ -151,22 +151,7 @@
                                 "description": "Time at which this state is valid (secs)"
                             },
                             "location": {
-                                "type": "object",
-                                "description": "Location of this vessel",
-                                "required": ["lat", "lng"],
-                                "properties": {
-                                    "lat": {
-                                        "type": "number",
-                                        "minimum": -90,
-                                        "maximum": 90
-
-                                    },
-                                    "lng": {
-                                        "type": "number",
-                                        "minimum": -180,
-                                        "maximum": 180
-                                    }
-                                }
+				"$ref": "#/definitions/latLng"
                             },
                             "height": {
                                 "type": "number",
@@ -459,28 +444,10 @@
                     "$ref": "#/definitions/behaviourHeight"
                 },
                 "tl": {
-                    "type": "object",
-                    "required": ["lat", "lng"],
-                    "properties": {
-                        "lat": {
-                            "type": "number"
-                        },
-                        "lng": {
-                            "type": "number"
-                        }
-                    }
+                    "$ref": "#/definitions/latLng"
                 },
                 "br": {
-                    "type": "object",
-                    "required": ["lat", "lng"],
-                    "properties": {
-                        "lat": {
-                            "type": "number"
-                        },
-                        "lng": {
-                            "type": "number"
-                        }
-                    }
+                    "$ref": "#/definitions/latLng"
                 },
                 "speed": {
                     "type": "integer"
