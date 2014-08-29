@@ -433,20 +433,7 @@
 		    "uniqueItems": true,
 		    "description": "Route followed in Path behaviour",
 		    "items": {
-			"type": "object",
-			"required": ["lat", "lng"],
-			"properties": {
-			    "lat": {
-				"type": "number",
-				"minimum": -90,
-				"maximum": 90
-			    },
-			    "lng": {
-				"type": "number",
-				"minimum": -180,
-				"maximum": 180
-			    }
-			}
+			"$ref": "#/definitions/latLng"
 		    }
 		},
 		"speed": {
@@ -576,6 +563,21 @@
 		"message": { "type": "string" }
 	    }
 	},
+	"latLng": {
+	    "required": ["lat", "lng"],
+	    "properties": { 
+		"lat": {
+		    "type": "number",
+		    "minimum": -90,
+		    "maximum": 90
+		},
+		"lng": {
+		    "type": "number",
+		    "minimum": -180,
+		    "maximum": 180
+		}
+	    }
+	},
 	"objectiveCore": {
 	    "type": "object",
 	    "properties": {
@@ -625,29 +627,10 @@
 		"subject": { "type": "string" } ,
 		"category": { "type": "string" } ,
 		"tl": {
-		    "type": "object",
-		    "required": ["lat", "lng"],
-		    "properties": {
-			"lat": {
-			    "type": "number"
-			},
-
-			"lng": {
-			    "type": "number"
-			}
-		    }
+		    "$ref": "#/definitions/latLng"
 		},
 		"br": {
-		    "type": "object",
-		    "required": ["lat", "lng"],
-		    "properties": {
-			"lat": {
-			    "type": "number"
-			},
-			"lng": {
-			    "type": "number"
-			}
-		    }
+		    "$ref": "#/definitions/latLng"
 		},
 		"success": { "type": "string" } ,
 		"failure": { "type": "string" } 
@@ -657,22 +640,14 @@
 	    "type": "object",
 	    "properties": 
 	    { 
-		"type": { "enum": ["PROXIMITY"] } ,
-		"subject": { "type": "string" } ,
-		"category": { "type": "string" } ,
-		"range": { "type": "number" } ,
-		"success": { "type": "string" } ,
-		"failure": { "type": "string" } ,
+		"type": { "enum": ["PROXIMITY"] },
+		"subject": { "type": "string" },
+		"category": { "type": "string" },
+		"range": { "type": "number" },
+		"success": { "type": "string" },
+		"failure": { "type": "string" },
 		"location": {
-		    "type": "object",
-		    "properties": {
-			"lat": {
-			    "type": "number"
-			},
-			"lng": {
-			    "type": "number"
-			}
-		    }
+		    "$ref": "#/definitions/latLng"
 		},
 		"range": { "type": "integer" },
 		"elapsed": { "type": "integer" },
@@ -695,9 +670,9 @@
 	    "type": "object",
 	    "properties": 
 	    { 
-		"type": { "enum": ["GAIN_CONTACT"] } ,
+		"type": { "enum": ["GAIN_CONTACT"] },
 		"elapsed": { "type": "integer" },
-		"success": { "type": "string" } ,
+		"success": { "type": "string" },
 		"failure": { "type": "string" } 
 	    } 
 	},
